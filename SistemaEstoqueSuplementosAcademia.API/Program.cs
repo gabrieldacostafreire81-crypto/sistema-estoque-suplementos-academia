@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using SistemaEstoqueSuplementosAcademia.Application.Interfaces;
+using SistemaEstoqueSuplementosAcademia.Application.Services;
+using SistemaEstoqueSuplementosAcademia.Domain.Interfaces;
 using SistemaEstoqueSuplementosAcademia.Infrastructure.Data;
+using SistemaEstoqueSuplementosAcademia.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +16,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 
 var app = builder.Build();
 
