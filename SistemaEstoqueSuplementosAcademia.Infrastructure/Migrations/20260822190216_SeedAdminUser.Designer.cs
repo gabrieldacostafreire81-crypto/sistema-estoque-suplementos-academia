@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SistemaEstoqueSuplementosAcademia.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using SistemaEstoqueSuplementosAcademia.Infrastructure.Data;
 namespace SistemaEstoqueSuplementosAcademia.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260822190216_SeedAdminUser")]
+    partial class SeedAdminUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -253,18 +256,6 @@ namespace SistemaEstoqueSuplementosAcademia.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Usuarios");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Ativo = true,
-                            DataCriacao = new DateTime(2026, 8, 22, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "admin@sistemaestoque.com",
-                            Nome = "Administrador",
-                            Perfil = 1,
-                            SenhaHash = "$2b$11$QCfze8kaD6WvqkMZTsNyYexMDzdsrALOkdYWepCzu26ZnVLBTpcF."
-                        });
                 });
 
             modelBuilder.Entity("SistemaEstoqueSuplementosAcademia.Domain.Entities.Venda", b =>
