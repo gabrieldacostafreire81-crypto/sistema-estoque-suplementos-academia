@@ -1,0 +1,6 @@
+@SistemaEstoqueSuplementosAcademia.API_HostAddress = http://localhost:5265
+
+GET {{SistemaEstoqueSuplementosAcademia.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="SistemaEstoqueSuplementosAcademia.API/SistemaEstoqueSuplementosAcademia.API.csproj" />
+  <Project Path="SistemaEstoqueSuplementosAcademia.Application/SistemaEstoqueSuplementosAcademia.Application.csproj" />
+  <Project Path="SistemaEstoqueSuplementosAcademia.Domain/SistemaEstoqueSuplementosAcademia.Domain.csproj" />
+  <Project Path="SistemaEstoqueSuplementosAcademia.Infrastructure/SistemaEstoqueSuplementosAcademia.Infrastructure.csproj" />
+  <Project Path="SistemaEstoqueSuplementosAcademia.Tests/SistemaEstoqueSuplementosAcademia.Tests.csproj" />
+</Solution>
