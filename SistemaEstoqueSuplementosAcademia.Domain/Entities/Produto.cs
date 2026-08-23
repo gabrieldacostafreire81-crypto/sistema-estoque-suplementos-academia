@@ -3,6 +3,8 @@ namespace SistemaEstoqueSuplementosAcademia.Domain.Entities
 {
     public class Produto
     {
+        
+        public byte[] RowVersion { get; set; } = Array.Empty<byte>();
         public int Id { get; set; }
         public string Nome { get; set; } = string.Empty;
 

@@ -12,6 +12,7 @@ namespace SistemaEstoqueSuplementosAcademia.Infrastructure.Data.Configurations
             builder.Property(p => p.Nome).IsRequired().HasMaxLength(150);
             builder.Property(p => p.PrecoCompra).HasPrecision(10, 2);
             builder.Property(p => p.PrecoVenda).HasPrecision(10, 2);
+            builder.Property(p => p.RowVersion).IsRowVersion();
 
             builder.HasOne(p => p.Categoria)
                 .WithMany(c => c.Produtos)
