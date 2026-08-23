@@ -1,4 +1,5 @@
 ﻿// Application/Services/FornecedorService.cs
+using SistemaEstoqueSuplementosAcademia.Application.DTOs.Common;
 using SistemaEstoqueSuplementosAcademia.Application.DTOs.Fornecedor;
 using SistemaEstoqueSuplementosAcademia.Application.Interfaces;
 using SistemaEstoqueSuplementosAcademia.Domain.Entities;
@@ -63,10 +64,18 @@ namespace SistemaEstoqueSuplementosAcademia.Application.Services
             return fornecedor is null ? null : MapearParaDto(fornecedor);
         }
 
-        public async Task<IEnumerable<FornecedorResponseDto>> ObterTodosAsync()
+        public async Task<PagedResultDto<FornecedorResponseDto>> ObterPaginadoAsync(FornecedorFiltroDto filtro)
         {
-            var fornecedores = await _repository.ObterTodosAsync();
-            return fornecedores.Select(MapearParaDto);
+            var (itens, total) = await _repository.ObterPaginadoAsync(
+                filtro.Nome, filtro.Ativo, filtro.Pagina, filtro.TamanhoPagina);
+
+            return new PagedResultDto<FornecedorResponseDto>
+            {
+                Itens = itens.Select(MapearParaDto),
+                TotalRegistros = total,
+                Pagina = filtro.Pagina,
+                TamanhoPagina = filtro.TamanhoPagina
+            };
         }
 
         public async Task InativarAsync(int id)

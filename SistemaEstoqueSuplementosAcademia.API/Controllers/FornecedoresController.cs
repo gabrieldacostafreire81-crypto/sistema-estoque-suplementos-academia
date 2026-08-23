@@ -17,9 +17,9 @@ namespace SistemaEstoqueSuplementosAcademia.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FornecedorResponseDto>>> ObterTodos()
+        public async Task<IActionResult> ObterPaginado([FromQuery] FornecedorFiltroDto filtro)
         {
-            return Ok(await _service.ObterTodosAsync());
+            return Ok(await _service.ObterPaginadoAsync(filtro));
         }
 
         [HttpGet("{id}")]

@@ -20,9 +20,26 @@ namespace SistemaEstoqueSuplementosAcademia.Infrastructure.Repositories
             return await _context.Fornecedores.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Fornecedor>> ObterTodosAsync()
+        public async Task<(IEnumerable<Fornecedor> Itens, int TotalRegistros)> ObterPaginadoAsync(
+            string? nome, bool? ativo, int pagina, int tamanhoPagina)
         {
-            return await _context.Fornecedores.OrderBy(f => f.Nome).ToListAsync();
+            var query = _context.Fornecedores.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(nome))
+                query = query.Where(f => f.Nome.Contains(nome));
+
+            if (ativo.HasValue)
+                query = query.Where(f => f.Ativo == ativo);
+
+            var total = await query.CountAsync();
+
+            var itens = await query
+                .OrderBy(f => f.Nome)
+                .Skip((pagina - 1) * tamanhoPagina)
+                .Take(tamanhoPagina)
+                .ToListAsync();
+
+            return (itens, total);
         }
 
         public async Task<bool> ExisteComCnpjAsync(string cnpj, int? idParaIgnorar = null)

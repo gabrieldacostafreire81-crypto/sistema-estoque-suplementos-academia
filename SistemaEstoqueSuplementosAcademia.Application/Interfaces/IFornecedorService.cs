@@ -1,4 +1,5 @@
 ﻿// Application/Interfaces/IFornecedorService.cs
+using SistemaEstoqueSuplementosAcademia.Application.DTOs.Common;
 using SistemaEstoqueSuplementosAcademia.Application.DTOs.Fornecedor;
 
 namespace SistemaEstoqueSuplementosAcademia.Application.Interfaces
@@ -8,7 +9,7 @@ namespace SistemaEstoqueSuplementosAcademia.Application.Interfaces
         Task<FornecedorResponseDto> CriarAsync(FornecedorCreateDto dto);
         Task<FornecedorResponseDto> AtualizarAsync(int id, FornecedorUpdateDto dto);
         Task<FornecedorResponseDto?> ObterPorIdAsync(int id);
-        Task<IEnumerable<FornecedorResponseDto>> ObterTodosAsync();
+        Task<PagedResultDto<FornecedorResponseDto>> ObterPaginadoAsync(FornecedorFiltroDto filtro);
         Task InativarAsync(int id);
     }
 }
