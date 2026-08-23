@@ -1,4 +1,5 @@
 ﻿// Controllers/EstoqueController.cs
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SistemaEstoqueSuplementosAcademia.Application.DTOs.Estoque;
 using SistemaEstoqueSuplementosAcademia.Application.Interfaces;
@@ -7,6 +8,7 @@ namespace SistemaEstoqueSuplementosAcademia.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class EstoqueController : ControllerBase
     {
         private readonly IEstoqueService _service;
@@ -19,6 +21,7 @@ namespace SistemaEstoqueSuplementosAcademia.API.Controllers
         [HttpPost("entrada")]
         public async Task<ActionResult<MovimentacaoResponseDto>> RegistrarEntrada(MovimentacaoEntradaSaidaDto dto)
         {
+            dto.UsuarioId = ObterUsuarioIdDoToken();
             try
             {
                 return Ok(await _service.RegistrarEntradaAsync(dto));
@@ -29,6 +32,7 @@ namespace SistemaEstoqueSuplementosAcademia.API.Controllers
         [HttpPost("saida")]
         public async Task<ActionResult<MovimentacaoResponseDto>> RegistrarSaida(MovimentacaoEntradaSaidaDto dto)
         {
+            dto.UsuarioId = ObterUsuarioIdDoToken();
             try
             {
                 return Ok(await _service.RegistrarSaidaAsync(dto));
@@ -40,6 +44,7 @@ namespace SistemaEstoqueSuplementosAcademia.API.Controllers
         [HttpPost("ajuste")]
         public async Task<ActionResult<MovimentacaoResponseDto>> RegistrarAjuste(MovimentacaoAjusteDto dto)
         {
+            dto.UsuarioId = ObterUsuarioIdDoToken();
             try
             {
                 return Ok(await _service.RegistrarAjusteAsync(dto));
@@ -51,6 +56,15 @@ namespace SistemaEstoqueSuplementosAcademia.API.Controllers
         public async Task<ActionResult<IEnumerable<MovimentacaoResponseDto>>> ObterHistorico(int produtoId)
         {
             return Ok(await _service.ObterHistoricoPorProdutoAsync(produtoId));
+        }
+
+        private int ObterUsuarioIdDoToken()
+        {
+            var claim = User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub);
+            if (claim is null || !int.TryParse(claim.Value, out var usuarioId))
+                throw new UnauthorizedAccessException("Token inválido ou sem identificação de usuário.");
+
+            return usuarioId;
         }
     }
 }

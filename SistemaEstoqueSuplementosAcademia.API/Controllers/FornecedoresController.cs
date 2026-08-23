@@ -1,4 +1,5 @@
 ﻿// Controllers/FornecedoresController.cs
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SistemaEstoqueSuplementosAcademia.Application.DTOs.Fornecedor;
 using SistemaEstoqueSuplementosAcademia.Application.Interfaces;
@@ -7,6 +8,8 @@ namespace SistemaEstoqueSuplementosAcademia.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
+   
     public class FornecedoresController : ControllerBase
     {
         private readonly IFornecedorService _service;

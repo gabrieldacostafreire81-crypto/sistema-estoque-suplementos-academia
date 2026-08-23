@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SistemaEstoqueSuplementosAcademia.Application.DTOs.Categoria;
 using SistemaEstoqueSuplementosAcademia.Application.Interfaces;
 
 namespace SistemaEstoqueSuplementosAcademia.API.Controllers
 {
+
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
+   
     public class CategoriasController : ControllerBase
     {
         private readonly ICategoriaService _service;

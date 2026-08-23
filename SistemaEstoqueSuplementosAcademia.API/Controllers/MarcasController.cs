@@ -1,4 +1,5 @@
 ﻿// Controllers/MarcasController.cs
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SistemaEstoqueSuplementosAcademia.Application.DTOs.Marca;
 using SistemaEstoqueSuplementosAcademia.Application.Interfaces;
@@ -7,6 +8,7 @@ namespace SistemaEstoqueSuplementosAcademia.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class MarcasController : ControllerBase
     {
         private readonly IMarcaService _service;

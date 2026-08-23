@@ -1,4 +1,5 @@
 ﻿// Controllers/ProdutosController.cs
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SistemaEstoqueSuplementosAcademia.Application.DTOs.Produto;
 using SistemaEstoqueSuplementosAcademia.Application.Interfaces;
@@ -7,6 +8,8 @@ namespace SistemaEstoqueSuplementosAcademia.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
+    
     public class ProdutosController : ControllerBase
     {
         private readonly IProdutoService _service;
