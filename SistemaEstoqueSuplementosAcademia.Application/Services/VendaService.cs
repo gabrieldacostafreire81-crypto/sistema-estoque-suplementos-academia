@@ -4,6 +4,7 @@ using SistemaEstoqueSuplementosAcademia.Application.Interfaces;
 using SistemaEstoqueSuplementosAcademia.Domain.Entities;
 using SistemaEstoqueSuplementosAcademia.Domain.Enums;
 using SistemaEstoqueSuplementosAcademia.Domain.Interfaces;
+using SistemaEstoqueSuplementosAcademia.Domain.Models;
 
 namespace SistemaEstoqueSuplementosAcademia.Application.Services
 {
@@ -114,6 +115,17 @@ namespace SistemaEstoqueSuplementosAcademia.Application.Services
                     Subtotal = i.Subtotal
                 }).ToList()
             };
+        }
+        public async Task<IEnumerable<VendaResponseDto>> ObterPorPeriodoAsync(DateTime? dataInicial, DateTime? dataFinal)
+        {
+            var vendas = await _vendaRepository.ObterPorPeriodoAsync(dataInicial, dataFinal);
+            return vendas.Select(MapearParaDto);
+        }
+
+        public async Task<IEnumerable<ProdutoMaisVendido>> ObterMaisVendidosAsync(
+            int topN, DateTime? dataInicial, DateTime? dataFinal)
+        {
+            return await _vendaRepository.ObterMaisVendidosAsync(topN, dataInicial, dataFinal);
         }
     }
 }

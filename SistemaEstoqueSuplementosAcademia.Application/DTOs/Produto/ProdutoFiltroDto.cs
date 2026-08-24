@@ -8,5 +8,6 @@ namespace SistemaEstoqueSuplementosAcademia.Application.DTOs.Produto
         public bool? Ativo { get; set; }
         public int Pagina { get; set; } = 1;
         public int TamanhoPagina { get; set; } = 10;
+        public bool? ApenasEstoqueBaixo { get; set; }
     }
 }

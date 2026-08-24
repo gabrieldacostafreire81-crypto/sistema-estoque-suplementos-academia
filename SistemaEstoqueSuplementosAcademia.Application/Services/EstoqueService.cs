@@ -85,9 +85,10 @@ namespace SistemaEstoqueSuplementosAcademia.Application.Services
             return await PersistirMovimentacaoAsync(produto, movimentacao);
         }
 
-        public async Task<IEnumerable<MovimentacaoResponseDto>> ObterHistoricoPorProdutoAsync(int produtoId)
+        public async Task<IEnumerable<MovimentacaoResponseDto>> ObterHistoricoAsync(
+    int? produtoId, DateTime? dataInicial, DateTime? dataFinal)
         {
-            var movimentacoes = await _movimentacaoRepository.ObterPorProdutoAsync(produtoId);
+            var movimentacoes = await _movimentacaoRepository.ObterPorFiltroAsync(produtoId, dataInicial, dataFinal);
             return movimentacoes.Select(m => MapearParaDto(m));
         }
 

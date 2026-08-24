@@ -51,11 +51,11 @@ namespace SistemaEstoqueSuplementosAcademia.API.Controllers
             }
             catch (KeyNotFoundException) { return NotFound(); }
         }
-
-        [HttpGet("produto/{produtoId}/historico")]
-        public async Task<ActionResult<IEnumerable<MovimentacaoResponseDto>>> ObterHistorico(int produtoId)
+        [HttpGet("historico")]
+        public async Task<ActionResult<IEnumerable<MovimentacaoResponseDto>>> ObterHistorico(
+    [FromQuery] int? produtoId, [FromQuery] DateTime? dataInicial, [FromQuery] DateTime? dataFinal)
         {
-            return Ok(await _service.ObterHistoricoPorProdutoAsync(produtoId));
+            return Ok(await _service.ObterHistoricoAsync(produtoId, dataInicial, dataFinal));
         }
 
         private int ObterUsuarioIdDoToken()

@@ -1,5 +1,4 @@
-﻿// Infrastructure/Repositories/MovimentacaoEstoqueRepository.cs
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SistemaEstoqueSuplementosAcademia.Domain.Entities;
 using SistemaEstoqueSuplementosAcademia.Domain.Interfaces;
 using SistemaEstoqueSuplementosAcademia.Infrastructure.Data;
@@ -20,12 +19,24 @@ namespace SistemaEstoqueSuplementosAcademia.Infrastructure.Repositories
             await _context.MovimentacoesEstoque.AddAsync(movimentacao);
         }
 
-        public async Task<IEnumerable<MovimentacaoEstoque>> ObterPorProdutoAsync(int produtoId)
+        public async Task<IEnumerable<MovimentacaoEstoque>> ObterPorFiltroAsync(
+            int? produtoId, DateTime? dataInicial, DateTime? dataFinal)
         {
-            return await _context.MovimentacoesEstoque
+            var query = _context.MovimentacoesEstoque
                 .Include(m => m.Produto)
                 .Include(m => m.Usuario)
-                .Where(m => m.ProdutoId == produtoId)
+                .AsQueryable();
+
+            if (produtoId.HasValue)
+                query = query.Where(m => m.ProdutoId == produtoId);
+
+            if (dataInicial.HasValue)
+                query = query.Where(m => m.DataHora >= dataInicial);
+
+            if (dataFinal.HasValue)
+                query = query.Where(m => m.DataHora <= dataFinal);
+
+            return await query
                 .OrderByDescending(m => m.DataHora)
                 .ToListAsync();
         }

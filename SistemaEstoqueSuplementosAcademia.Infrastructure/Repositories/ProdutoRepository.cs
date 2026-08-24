@@ -25,7 +25,7 @@ namespace SistemaEstoqueSuplementosAcademia.Infrastructure.Repositories
         }
 
         public async Task<(IEnumerable<Produto> Itens, int TotalRegistros)> ObterPaginadoAsync(
-            string? nome, int? categoriaId, bool? ativo, int pagina, int tamanhoPagina)
+            string? nome, int? categoriaId, bool? ativo, bool? apenasEstoqueBaixo, int pagina, int tamanhoPagina)
         {
             var query = _context.Produtos
                 .Include(p => p.Categoria)
@@ -41,6 +41,9 @@ namespace SistemaEstoqueSuplementosAcademia.Infrastructure.Repositories
 
             if (ativo.HasValue)
                 query = query.Where(p => p.Ativo == ativo);
+
+            if (apenasEstoqueBaixo == true)
+                query = query.Where(p => p.EstoqueAtual <= p.EstoqueMinimo);
 
             var total = await query.CountAsync();
 

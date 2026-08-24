@@ -8,6 +8,6 @@ namespace SistemaEstoqueSuplementosAcademia.Application.Interfaces
         Task<MovimentacaoResponseDto> RegistrarEntradaAsync(MovimentacaoEntradaSaidaDto dto);
         Task<MovimentacaoResponseDto> RegistrarSaidaAsync(MovimentacaoEntradaSaidaDto dto);
         Task<MovimentacaoResponseDto> RegistrarAjusteAsync(MovimentacaoAjusteDto dto);
-        Task<IEnumerable<MovimentacaoResponseDto>> ObterHistoricoPorProdutoAsync(int produtoId);
+        Task<IEnumerable<MovimentacaoResponseDto>> ObterHistoricoAsync(int? produtoId, DateTime? dataInicial, DateTime? dataFinal);
     }
 }

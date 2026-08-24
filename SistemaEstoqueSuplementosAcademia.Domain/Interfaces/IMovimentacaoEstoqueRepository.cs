@@ -1,11 +1,11 @@
-﻿// Domain/Interfaces/IMovimentacaoEstoqueRepository.cs
-using SistemaEstoqueSuplementosAcademia.Domain.Entities;
+﻿using SistemaEstoqueSuplementosAcademia.Domain.Entities;
 
 namespace SistemaEstoqueSuplementosAcademia.Domain.Interfaces
 {
     public interface IMovimentacaoEstoqueRepository
     {
         Task AdicionarAsync(MovimentacaoEstoque movimentacao);
-        Task<IEnumerable<MovimentacaoEstoque>> ObterPorProdutoAsync(int produtoId);
+        Task<IEnumerable<MovimentacaoEstoque>> ObterPorFiltroAsync(
+            int? produtoId, DateTime? dataInicial, DateTime? dataFinal);
     }
 }

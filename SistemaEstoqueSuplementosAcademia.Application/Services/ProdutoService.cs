@@ -82,7 +82,7 @@ namespace SistemaEstoqueSuplementosAcademia.Application.Services
         public async Task<PagedResultDto<ProdutoResponseDto>> ObterPaginadoAsync(ProdutoFiltroDto filtro)
         {
             var (itens, total) = await _produtoRepository.ObterPaginadoAsync(
-                filtro.Nome, filtro.CategoriaId, filtro.Ativo, filtro.Pagina, filtro.TamanhoPagina);
+                filtro.Nome, filtro.CategoriaId, filtro.Ativo, filtro.ApenasEstoqueBaixo, filtro.Pagina, filtro.TamanhoPagina);
 
             return new PagedResultDto<ProdutoResponseDto>
             {
