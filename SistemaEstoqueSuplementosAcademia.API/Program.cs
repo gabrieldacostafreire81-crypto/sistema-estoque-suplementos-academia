@@ -7,6 +7,7 @@ using SistemaEstoqueSuplementosAcademia.Domain.Interfaces;
 using SistemaEstoqueSuplementosAcademia.Infrastructure.Data;
 using SistemaEstoqueSuplementosAcademia.Infrastructure.Repositories;
 using SistemaEstoqueSuplementosAcademia.Infrastructure.Security;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,7 +48,27 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IVendaRepository, VendaRepository>();
 builder.Services.AddScoped<IVendaService, VendaService>();
 
+// --- CORS (somente para desenvolvimento local do front-end experimental) ---
+const string PoliticaFrontendDev = "FrontendDev";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(PoliticaFrontendDev, policy =>
+    {
+        policy
+            .SetIsOriginAllowed(_ => true)
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 // --- Autenticação JWT ---
+
+// Sem isso, o ASP.NET Core renomeia silenciosamente a claim "sub" (usada para
+// identificar o usuário) para um nome interno longo, quebrando a leitura do
+// UsuarioId a partir do token nos Controllers.
+JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+
 var jwtSecretKey = builder.Configuration["Jwt:SecretKey"]
     ?? throw new InvalidOperationException("Chave JWT não configurada.");
 
@@ -82,6 +103,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(PoliticaFrontendDev);
 
 app.UseAuthentication();
 app.UseAuthorization();

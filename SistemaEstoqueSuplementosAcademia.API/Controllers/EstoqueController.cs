@@ -21,22 +21,24 @@ namespace SistemaEstoqueSuplementosAcademia.API.Controllers
         [HttpPost("entrada")]
         public async Task<ActionResult<MovimentacaoResponseDto>> RegistrarEntrada(MovimentacaoEntradaSaidaDto dto)
         {
-            dto.UsuarioId = ObterUsuarioIdDoToken();
             try
             {
+                dto.UsuarioId = ObterUsuarioIdDoToken();
                 return Ok(await _service.RegistrarEntradaAsync(dto));
             }
+            catch (UnauthorizedAccessException) { return Unauthorized(); }
             catch (KeyNotFoundException) { return NotFound(); }
         }
 
         [HttpPost("saida")]
         public async Task<ActionResult<MovimentacaoResponseDto>> RegistrarSaida(MovimentacaoEntradaSaidaDto dto)
         {
-            dto.UsuarioId = ObterUsuarioIdDoToken();
             try
             {
+                dto.UsuarioId = ObterUsuarioIdDoToken();
                 return Ok(await _service.RegistrarSaidaAsync(dto));
             }
+            catch (UnauthorizedAccessException) { return Unauthorized(); }
             catch (KeyNotFoundException) { return NotFound(); }
             catch (InvalidOperationException ex) { return UnprocessableEntity(new { mensagem = ex.Message }); }
         }
@@ -44,16 +46,18 @@ namespace SistemaEstoqueSuplementosAcademia.API.Controllers
         [HttpPost("ajuste")]
         public async Task<ActionResult<MovimentacaoResponseDto>> RegistrarAjuste(MovimentacaoAjusteDto dto)
         {
-            dto.UsuarioId = ObterUsuarioIdDoToken();
             try
             {
+                dto.UsuarioId = ObterUsuarioIdDoToken();
                 return Ok(await _service.RegistrarAjusteAsync(dto));
             }
+            catch (UnauthorizedAccessException) { return Unauthorized(); }
             catch (KeyNotFoundException) { return NotFound(); }
         }
+
         [HttpGet("historico")]
         public async Task<ActionResult<IEnumerable<MovimentacaoResponseDto>>> ObterHistorico(
-    [FromQuery] int? produtoId, [FromQuery] DateTime? dataInicial, [FromQuery] DateTime? dataFinal)
+            [FromQuery] int? produtoId, [FromQuery] DateTime? dataInicial, [FromQuery] DateTime? dataFinal)
         {
             return Ok(await _service.ObterHistoricoAsync(produtoId, dataInicial, dataFinal));
         }
